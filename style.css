@@ -13,15 +13,20 @@ html, body {
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 20px;
     
-    /* LE PLUS IMPORTANT : Le fond coloré pour l'effet de verre */
-    /* Un dégradé chaud "coucher de soleil One Piece" */
+    /* CORRECTION 1 : Aligner en haut */
+    align-items: flex-start; 
+    
+    /* CORRECTION 2 : Ajouter de l'espace en haut */
+    padding: 50px 20px;
+    
     background: linear-gradient(135deg, #ff8c00 0%, #ff4500 50%, #8b0000 100%);
     background-attachment: fixed; /* Le dégradé reste fixe */
     color: white;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ombre sur le texte pour la lisibilité */
+    
+    /* CORRECTION 3 : Assurer le scroll si l'écran est petit */
+    overflow-y: auto; 
 }
 
 /* --- 2. Conteneur principal du jeu --- */
@@ -30,27 +35,28 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 30px; /* Espace entre les éléments (moderne) */
+    width: 100%;
+    max-width: 550px; /* Un peu plus large pour être à l'aise */
 }
 
 /* --- 3. Le Panneau de Score (Notre "Verre Liquide") --- */
 #score-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 550px; /* Doit être égal à #game */
     text-align: center;
     
-    /* C'est ici la magie du Glassmorphism */
-    background: rgba(255, 255, 255, 0.1); /* 1. Fond semi-transparent */
-    backdrop-filter: blur(12px);          /* 2. Le flou de l'arrière-plan */
-    -webkit-backdrop-filter: blur(12px);  /* (Pour Safari) */
-    border-radius: 20px;                  /* 3. Bords arrondis "liquides" */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* 4. Bordure subtile */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15); /* 5. Ombre douce */
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(12px);          
+    -webkit-backdrop-filter: blur(12px);  
+    border-radius: 20px;                  
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15); 
     
     padding: 1.5rem 2rem;
 }
 
 #score-container h1 {
-    font-size: 2.5rem; /* 2.5em -> 2.5rem (plus moderne) */
+    font-size: 2.5rem; 
     margin: 0;
 }
 
@@ -58,6 +64,7 @@ body {
     font-size: 1.1rem;
     opacity: 0.8;
     margin: 0;
+    margin-top: 5px; /* (Le style que tu as ajouté) */
 }
 
 /* --- 4. Le Clicker (Le Beri) --- */
@@ -65,21 +72,15 @@ body {
     width: 250px;
     cursor: pointer;
     
-    /* On remplace la transition par un filtre (plus "moderne") */
-    /* Ombre portée dorée pour un effet "trésor" */
     filter: drop-shadow(0 5px 15px rgba(255, 223, 0, 0.5));
-    
-    /* Animation de transition douce */
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
 }
 
-/* Effet au survol */
 #beri-clicker:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 10px 25px rgba(255, 223, 0, 0.7));
 }
 
-/* Effet au clic */
 #beri-clicker:active {
     transform: scale(0.95);
     filter: drop-shadow(0 2px 5px rgba(255, 223, 0, 0.4));
@@ -88,9 +89,8 @@ body {
 /* --- 5. Le Magasin (Glassmorphism aussi) --- */
 #shop-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 550px; /* Doit être égal à #game */
     
-    /* Effet de verre, comme le score */
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -101,27 +101,26 @@ body {
     padding: 1.5rem;
 }
 
-/* --- 6. Les "Cartes" d'amélioration (notre bouton Coby) --- */
+/* --- 6. Les "Cartes" d'amélioration --- */
 .upgrade-card {
-    background: rgba(0, 0, 0, 0.1); /* Un fond un peu plus sombre pour contraster */
+    background: rgba(0, 0, 0, 0.1); 
     border-radius: 15px;
     padding: 1rem;
-    display: flex; /* Aligne les infos et le compteur */
-    justify-content: space-between; /* Met les infos à gauche, le compteur à droite */
+    display: flex; 
+    justify-content: space-between; 
     align-items: center;
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: background 0.2s ease;
 }
 
-/* Effet au survol du bouton */
 .upgrade-card:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
 .upgrade-card h3 {
-    margin: 0 0 5px 0; /* Pas de marge en haut/bas, 5px en bas */
-    color: #ffd700; /* Couleur "Or" pour le titre */
+    margin: 0 0 5px 0; 
+    color: #ffd700; 
 }
 
 .upgrade-card p {
@@ -133,6 +132,9 @@ body {
 .upgrade-count {
     font-size: 1.2rem;
     font-weight: bold;
+    /* AMÉLIORATION : Mieux aligner le texte à droite */
+    text-align: right;
+    min-width: 100px;
 }
 
 /* --- 7. Ajustements Magasin --- */
@@ -147,7 +149,4 @@ body {
     margin-bottom: 0;
 }
 
-/* Un peu plus d'espace pour le nouveau "Beri par clic" */
-#score-container p {
-    margin-top: 5px;
-}
+/* (La règle pour #score-container p est déjà en haut) */
