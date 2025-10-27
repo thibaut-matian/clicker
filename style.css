@@ -150,3 +150,36 @@ body {
 }
 
 /* (La règle pour #score-container p est déjà en haut) */
+
+/* --- 8. Effet de Clic Flottant --- */
+.floating-text {
+    position: absolute; /* Positionné par rapport à la page */
+    font-size: 1.8rem;  /* Un peu plus gros pour être visible */
+    font-weight: bold;
+    color: #ffd700;   /* Couleur or, comme les titres */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Ombre pour la lisibilité */
+    
+    /* Important : pour que le texte ne bloque pas la souris */
+    pointer-events: none; 
+    user-select: none;
+    
+    /* L'animation qui va être jouée */
+    animation: floatUp 1s ease-out forwards;
+    
+    /* Empêche le "+ 10" de sauter à la ligne */
+    white-space: nowrap;
+}
+
+/* L'animation elle-même */
+@keyframes floatUp {
+    0% {
+        /* Commence 100% opaque et à sa position */
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        /* Finit 100% transparent et 50px plus haut */
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}

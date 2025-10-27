@@ -2,7 +2,7 @@
 
 let beris = 0;
 let berisPerSecond = 0;
-let berisPerClick = 1; // La puissance de notre clic
+let berisPerClick = 1; 
 
 // Amélioration 1 : Coby
 let cobyCount = 0;
@@ -20,53 +20,81 @@ let namiCost = 500;
 const namiProduction = 40;
 
 // Amélioration de Clic
-let clickUpgradeLevel = 1; // On commence au niveau 1
-let clickUpgradeCost = 50; // Coût de base
+let clickUpgradeLevel = 1; 
+let clickUpgradeCost = 50; 
 
 
 // --- 2. Récupérer les éléments de la page ---
-// C'est crucial que les 'id' ici correspondent PARFAITEMENT au HTML
-
 const beriCountDisplay = document.getElementById('beri-count');
 const berisPerSecondDisplay = document.getElementById('beris-per-second');
 const beriClicker = document.getElementById('beri-clicker');
-const berisPerClickDisplay = document.getElementById('beris-per-click'); // Ajout de l'étape 4
-
-// Magasin : Coby
+const berisPerClickDisplay = document.getElementById('beris-per-click'); 
 const cobyButton = document.getElementById('buy-coby');
 const cobyCountDisplay = document.getElementById('coby-count');
 const cobyCostDisplay = document.getElementById('coby-cost');
-
-// Magasin : Zoro
 const zoroButton = document.getElementById('buy-zoro');
 const zoroCountDisplay = document.getElementById('zoro-count');
 const zoroCostDisplay = document.getElementById('zoro-cost');
-
-// Magasin : Nami
 const namiButton = document.getElementById('buy-nami');
 const namiCountDisplay = document.getElementById('nami-count');
 const namiCostDisplay = document.getElementById('nami-cost');
-
-// Magasin : Amélioration de Clic
 const clickUpgradeButton = document.getElementById('buy-click-upgrade');
 const clickUpgradeLevelDisplay = document.getElementById('click-upgrade-level');
 const clickUpgradeCostDisplay = document.getElementById('click-upgrade-cost');
 
 
-// --- 3. Logique du Clic ---
+// --- 3. Logique du Clic (MISE À JOUR) ---
 if (beriClicker) {
-    beriClicker.addEventListener('click', handleClick);
+    // On passe maintenant l'objet 'event' à la fonction
+    beriClicker.addEventListener('click', handleClick); 
 }
-function handleClick() {
-    beris += berisPerClick; // On ajoute la puissance du clic
+
+// La fonction accepte 'event' comme argument
+function handleClick(event) { 
+    // 1. Logique de score (inchangée)
+    beris += berisPerClick; 
     updateUI();
+    
+    // 2. NOUVEAU : Créer l'effet visuel
+    createFloatingText(event);
 }
+
+// NOUVEAU : Fonction pour créer le texte flottant
+function createFloatingText(event) {
+    // 1. Créer un nouvel élément <span>
+    const floatingText = document.createElement('span');
+    
+    // 2. Définir son contenu (ex: "+1", "+2", etc.)
+    floatingText.innerText = `+${berisPerClick}`;
+    
+    // 3. Lui donner la classe CSS qu'on vient de créer
+    floatingText.className = 'floating-text';
+    
+    // 4. Le positionner là où l'utilisateur a cliqué
+    // event.pageX = position X sur la page (en tenant compte du scroll)
+    // event.pageY = position Y sur la page (en tenant compte du scroll)
+    // On décale un peu pour centrer sur la souris
+    floatingText.style.left = (event.pageX - 15) + 'px';
+    floatingText.style.top = (event.pageY - 20) + 'px';
+    
+    // 5. L'ajouter directement au 'body' de la page
+    document.body.appendChild(floatingText);
+    
+    // 6. Le supprimer après l'animation (1000ms = 1s, comme en CSS)
+    //    pour ne pas saturer la page d'éléments.
+    setTimeout(() => {
+        if (floatingText) {
+            floatingText.remove();
+        }
+    }, 1000);
+}
+
 
 // --- 4. Logique d'achat ---
 if (cobyButton) cobyButton.addEventListener('click', buyCoby);
 if (zoroButton) zoroButton.addEventListener('click', buyZoro);
 if (namiButton) namiButton.addEventListener('click', buyNami);
-if (clickUpgradeButton) clickUpgradeButton.addEventListener('click', buyClickUpgrade);
+if (clickUpgradeButton) clickUpgradeButton.addEventListener('click', buyClickUpgrade); 
 
 // --- Fonctions d'achat d'équipage ---
 function buyCoby() {
@@ -107,7 +135,7 @@ function buyClickUpgrade() {
     if (beris >= clickUpgradeCost) {
         beris -= clickUpgradeCost;
         clickUpgradeLevel++;
-        berisPerClick++; // On augmente la puissance du clic
+        berisPerClick++; 
         clickUpgradeCost = Math.round(clickUpgradeCost * 1.8); 
     } else {
         alert("Pas assez de Beris pour t'entraîner !");
@@ -125,14 +153,13 @@ function gameLoop() {
 
 // --- 6. Mise à jour de l'UI ---
 function updateUI() {
-    // Recalculer le beris par seconde
+    // Recalculer le beris par seconde (ta super version)
     berisPerSecond = (cobyCount * cobyProduction) + (zoroCount * zoroProduction) + (namiCount * namiProduction);
 
     // Affichage du score
-    // On utilise les 'if (element)' pour éviter que le script ne plante si un 'id' est manquant
     if (beriCountDisplay) beriCountDisplay.innerText = Math.round(beris);
     if (berisPerSecondDisplay) berisPerSecondDisplay.innerText = berisPerSecond;
-    if (berisPerClickDisplay) berisPerClickDisplay.innerText = berisPerClick;
+    if (berisPerClickDisplay) berisPerClickDisplay.innerText = berisPerClick; 
 
     // Affichage Magasin Équipage
     if (cobyCountDisplay) cobyCountDisplay.innerText = cobyCount;
@@ -142,7 +169,7 @@ function updateUI() {
     if (namiCountDisplay) namiCountDisplay.innerText = namiCount;
     if (namiCostDisplay) namiCostDisplay.innerText = namiCost;
 
-    // Affichage Magasin Clic
+    // NOUVEAU : Affichage Magasin Clic
     if (clickUpgradeLevelDisplay) clickUpgradeLevelDisplay.innerText = clickUpgradeLevel;
     if (clickUpgradeCostDisplay) clickUpgradeCostDisplay.innerText = clickUpgradeCost;
 
