@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beri Clicker - One Piece</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game">
+        <div id="score-container">
+            <h1><span id="beri-count">0</span> Beris</h1>
+            <p><span id="beris-per-second">0</span> Beris par seconde</p>
+                <p><span id="beris-per-click">1</span> Beri par clic</p>
+        </div>
+
+
+        <div id="clicker-container">
+            <img src="https://i.imgur.com/gAOLdMc.png" id="beri-clicker" alt="Cliquer pour gagner des Beris">
+        </div>
+
+        <div id="shop-container">
+            <div class="upgrade-card" id="buy-click-upgrade">
+                <div class="upgrade-info">
+                    <h3>Entraînement au Haki</h3>
+                    <p>Augmente la puissance de ton clic de +1.</p>
+                    <p>Coût : <span id="click-upgrade-cost">50</span> Beris</p>
+                </div>
+                <div class="upgrade-count">
+                    Niv. <span id="click-upgrade-level">1</span>
+                </div>
+            </div>
+            <div class="upgrade-card" id="buy-coby">
+                <div class="upgrade-info">
+                    <h3>Recruter Coby</h3>
+                    <p>Rapporte 1 Beri par seconde.</p>
+                    <p>Coût : <span id="coby-cost">15</span> Beris</p>
+                </div>
+                <div class="upgrade-count">
+                    Possédés : <span id="coby-count">0</span>
+                </div>
+            </div>
+
+            <div class="upgrade-card" id="buy-zoro">
+                <div class="upgrade-info">
+                    <h3>Recruter Zoro</h3>
+                    <p>Rapporte 8 Beris par seconde.</p>
+                    <p>Coût : <span id="zoro-cost">100</span> Beris</p>
+                </div>
+                <div class="upgrade-count">
+                    Possédés : <span id="zoro-count">0</span>
+                </div>
+            </div>
+            
+            <div class="upgrade-card" id="buy-nami">
+                <div class="upgrade-info">
+                    <h3>Recruter Nami</h3>
+                    <p>Rapporte 40 Beris par seconde.</p>
+                    <p>Coût : <span id="nami-cost">500</span> Beris</p>
+                </div>
+                <div class="upgrade-count">
+                    Possédés : <span id="nami-count">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
