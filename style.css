@@ -1,185 +1,154 @@
-/* --- 1. Base et Arrière-plan --- */
+/* --- Base et corrections --- */
 * {
-    box-sizing: border-box; /* Gestion des tailles plus simple */
-    user-select: none; /* Empêche de sélectionner le texte/image en cliquant vite */
+    box-sizing: border-box;
+    user-select: none;
 }
 
 html, body {
     height: 100%;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden; /* Empêche le scroll horizontal */
 }
 
+/* Image de fond + overlay (combiner ici évite les règles en double) */
 body {
+    background-image: url("assets/img/Chapters_999-1000_Full_Color_Spread.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #0b0b0b;
+    color: #fff;
     display: flex;
     justify-content: center;
-    
-    /* CORRECTION 1 : Aligner en haut */
-    align-items: flex-start; 
-    
-    /* CORRECTION 2 : Ajouter de l'espace en haut */
+    align-items: flex-start;
     padding: 50px 20px;
-    
-    background: linear-gradient(135deg, #ff8c00 0%, #ff4500 50%, #8b0000 100%);
-    background-attachment: fixed; /* Le dégradé reste fixe */
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Ombre sur le texte pour la lisibilité */
-    
-    /* CORRECTION 3 : Assurer le scroll si l'écran est petit */
-    overflow-y: auto; 
+    overflow-y: auto;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* --- 2. Conteneur principal du jeu --- */
+/* couche sombre pour améliorer la lisibilité (overlay) */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Conteneur principal au-dessus de l'overlay */
 #game {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px; /* Espace entre les éléments (moderne) */
+    gap: 30px;
     width: 100%;
-    max-width: 550px; /* Un peu plus large pour être à l'aise */
+    max-width: 550px;
 }
 
-/* --- 3. Le Panneau de Score (Notre "Verre Liquide") --- */
+/* Score */
 #score-container {
     width: 100%;
-    max-width: 550px; /* Doit être égal à #game */
+    max-width: 550px;
     text-align: center;
-    
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(12px);          
-    -webkit-backdrop-filter: blur(12px);  
-    border-radius: 20px;                  
-    border: 1px solid rgba(255, 255, 255, 0.2); 
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15); 
-    
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.15);
     padding: 1.5rem 2rem;
 }
 
 #score-container h1 {
-    font-size: 2.5rem; 
+    font-size: 2.5rem;
     margin: 0;
 }
 
 #score-container p {
     font-size: 1.1rem;
     opacity: 0.8;
-    margin: 0;
-    margin-top: 5px; /* (Le style que tu as ajouté) */
+    margin: 5px 0 0 0;
 }
 
-/* --- 4. Le Clicker (Le Beri) --- */
+/* Clicker */
 #beri-clicker {
     width: 250px;
     cursor: pointer;
-    
-    filter: drop-shadow(0 5px 15px rgba(255, 223, 0, 0.5));
+    filter: drop-shadow(0 5px 15px rgba(255,223,0,0.5));
     transition: transform 0.1s ease-out, filter 0.1s ease-out;
 }
+#beri-clicker:hover { transform: scale(1.05); filter: drop-shadow(0 10px 25px rgba(255,223,0,0.7)); }
+#beri-clicker:active { transform: scale(0.95); filter: drop-shadow(0 2px 5px rgba(255,223,0,0.4)); }
 
-#beri-clicker:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0 10px 25px rgba(255, 223, 0, 0.7));
-}
-
-#beri-clicker:active {
-    transform: scale(0.95);
-    filter: drop-shadow(0 2px 5px rgba(255, 223, 0, 0.4));
-}
-
-/* --- 5. Le Magasin (Glassmorphism aussi) --- */
+/* Shop */
 #shop-container {
     width: 100%;
-    max-width: 550px; /* Doit être égal à #game */
-    
-    background: rgba(255, 255, 255, 0.1);
+    max-width: 550px;
+    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-    
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.15);
     padding: 1.5rem;
 }
 
-/* --- 6. Les "Cartes" d'amélioration --- */
+/* Upgrade cards */
 .upgrade-card {
-    background: rgba(0, 0, 0, 0.1); 
+    background: rgba(0,0,0,0.1);
     border-radius: 15px;
     padding: 1rem;
-    display: flex; 
-    justify-content: space-between; 
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
     transition: background 0.2s ease;
+    margin-bottom: 15px;
 }
+.upgrade-card:last-child { margin-bottom: 0; }
+.upgrade-card:hover { background: rgba(255,255,255,0.2); }
 
-.upgrade-card:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.upgrade-card h3 {
-    margin: 0 0 5px 0; 
-    color: #ffd700; 
-}
-
-.upgrade-card p {
-    margin: 0;
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
+.upgrade-card h3 { margin: 0 0 5px 0; color: #ffd700; }
+.upgrade-card p { margin: 0; font-size: 0.9rem; opacity: 0.9; }
 
 .upgrade-count {
     font-size: 1.2rem;
     font-weight: bold;
-    /* AMÉLIORATION : Mieux aligner le texte à droite */
     text-align: right;
     min-width: 100px;
 }
 
-/* --- 7. Ajustements Magasin --- */
-
-/* Ajoute un espace entre chaque carte d'amélioration */
-#shop-container .upgrade-card {
-    margin-bottom: 15px;
-}
-
-/* Enlève la marge de la *dernière* carte pour que ce soit propre */
-#shop-container .upgrade-card:last-child {
-    margin-bottom: 0;
-}
-
-/* (La règle pour #score-container p est déjà en haut) */
-
-/* --- 8. Effet de Clic Flottant --- */
+/* Floating text */
 .floating-text {
-    position: absolute; /* Positionné par rapport à la page */
-    font-size: 1.8rem;  /* Un peu plus gros pour être visible */
+    position: absolute;
+    font-size: 1.8rem;
     font-weight: bold;
-    color: #ffd700;   /* Couleur or, comme les titres */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Ombre pour la lisibilité */
-    
-    /* Important : pour que le texte ne bloque pas la souris */
-    pointer-events: none; 
+    color: #ffd700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    pointer-events: none;
     user-select: none;
-    
-    /* L'animation qui va être jouée */
     animation: floatUp 1s ease-out forwards;
-    
-    /* Empêche le "+ 10" de sauter à la ligne */
     white-space: nowrap;
 }
-
-/* L'animation elle-même */
 @keyframes floatUp {
-    0% {
-        /* Commence 100% opaque et à sa position */
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        /* Finit 100% transparent et 50px plus haut */
-        opacity: 0;
-        transform: translateY(-50px);
-    }
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-50px); }
 }
+
+/* Images des cartes : correction de la hauteur invalide */
+.upgrade-card img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    display: block;
+    margin-right: 12px;
+}
+
+/* Si tu veux une taille spécifique pour Nami seulement :
+#buy-nami img { width: 48px; height: 48px; }
+*/
